@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@import './app/styles/variables';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, sans-serif;
+  color: $font-color-1;
+  background: $color-bg-1;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+}

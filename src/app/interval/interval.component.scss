@@ -1,0 +1,232 @@
+@import '../styles/variables';
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 720px;
+  padding: 24px 28px 32px;
+  border: 1px solid $border-subtle;
+  border-radius: 12px;
+  background: $color-bg-2;
+  @include active-element-transition;
+
+  &.pulse,
+  &.done {
+    @include active-element;
+  }
+
+  &.break:not(.pulse):not(.done) {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: $font-color-3;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.count {
+  color: $font-color-4;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.phase-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border: 1px solid $border-subtle;
+  border-radius: 999px;
+  background: $color-bg-3;
+  color: $font-color-3;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  @include active-element-transition;
+
+  &.active {
+    @include active-element;
+    color: $font-color-1;
+  }
+}
+
+.time {
+  margin: 8px 0 6px;
+  color: $font-color-1;
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+
+  &.finished {
+    color: $accent;
+  }
+}
+
+.hint {
+  margin: 0 0 18px;
+  color: $font-color-3;
+  font-size: 13px;
+}
+
+.progress {
+  height: 8px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  border: 1px solid $border-subtle;
+  border-radius: 999px;
+  background: $color-bg-3;
+}
+
+.progress-fill {
+  height: 100%;
+  background: $accent;
+  transition: width 0.1s linear;
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+
+  &.two {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: $font-color-3;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid $border-subtle;
+    border-radius: 8px;
+    background: $color-bg-3;
+    color: $font-color-1;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    outline: none;
+    font-variant-numeric: tabular-nums;
+    @include active-element-transition;
+
+    &:hover {
+      border-color: rgba(61, 214, 140, 0.4);
+    }
+
+    &:focus {
+      border-color: $accent;
+    }
+  }
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 6px 8px;
+  border-radius: 999px;
+  border: 1px solid $border-subtle;
+  background: $color-bg-3;
+  color: $font-color-2;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  @include active-element-transition;
+
+  .material-icons {
+    font-size: 18px;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: rgba(61, 214, 140, 0.4);
+    color: $font-color-1;
+  }
+
+  &.active {
+    @include active-element;
+    color: $font-color-1;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+}
+
+@media (max-width: 800px) {
+  .wrap {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 18px 16px 24px;
+  }
+
+  .time {
+    font-size: 44px;
+  }
+
+  .fields.two {
+    grid-template-columns: 1fr;
+  }
+}

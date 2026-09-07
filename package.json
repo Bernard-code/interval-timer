@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.mjs",
+    "serve": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:random-interval": "node dist/random-interval/server/server.mjs"
+    "test": "ng test"
+  },
+  "engines": {
+    "node": ">=18.19.1"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,25 @@
+$color-bg-1: #0e0f10;
+$color-bg-2: #16181a;
+$color-bg-3: #1c1f22;
+$color-bg-4: #121314;
+
+$font-color-1: #f2f3f4;
+$font-color-2: #c8ccd0;
+$font-color-3: #8b9198;
+$font-color-4: #6b7178;
+
+$hover-item: #3dd68c;
+$delete-red: #ff7b7b;
+$active-item: #1D4ED8;
+$confirm-button: #ff9595;
+$border-subtle: rgba(255, 255, 255, 0.08);
+$accent: #3dd68c;
+
+@mixin active-element-transition {
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+@mixin active-element {
+  background: rgba(61, 214, 140, 0.12);
+  border-color: rgba(61, 214, 140, 0.35);
+}

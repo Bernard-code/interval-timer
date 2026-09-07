@@ -1,0 +1,136 @@
+<div class="wrap">
+  <article
+    class="card"
+    [class.done]="phase() === 'done'"
+    [class.pulse]="pulse()"
+    [class.break]="phase() === 'break'"
+  >
+    <header class="card-head">
+      <p class="kicker">
+        Runda
+        @if (signalCount() > 0) {
+          <span class="count">{{ signalLabel() }}</span>
+        }
+      </p>
+      <span class="phase-chip" [class.active]="running()">{{ phaseChip() }}</span>
+    </header>
+
+    <p class="time" [class.finished]="phase() === 'done'">{{ displayTime() }}</p>
+    <p class="hint">
+      @switch (phase()) {
+        @case ('idle') {
+          Czas rundy {{ roundLabel() }} · sygnał co {{ intervalRangeLabel() }} · przerwa {{ breakSeconds() }} s
+        }
+        @case ('interval') {
+          Sygnał za {{ phaseTime() }}
+          @if (drawnSeconds(); as drawn) {
+            · wylosowano {{ drawn }} s z {{ intervalRangeLabel() }}
+          }
+          @if (!running()) {
+            · pauza
+          }
+        }
+        @case ('break') {
+          Przerwa {{ phaseTime() }} · kolejny sygnał z {{ intervalRangeLabel() }}
+          @if (!running()) {
+            · pauza
+          }
+        }
+        @case ('done') {
+          Koniec rundy · {{ signalLabel() }}
+        }
+      }
+    </p>
+
+    <div class="progress" aria-hidden="true">
+      <div class="progress-fill" [style.width.%]="progress()"></div>
+    </div>
+
+    <div class="groups">
+      <section class="group">
+        <h3 class="kicker">Czas rundy (x)</h3>
+        <div class="fields two">
+          <label class="field">
+            Minuty
+            <input
+              type="number"
+              min="0"
+              max="180"
+              [value]="roundMinutes()"
+              (change)="onNumberChange($event, setRoundMinutes)"
+            />
+          </label>
+          <label class="field">
+            Sekundy
+            <input
+              type="number"
+              min="0"
+              max="59"
+              [value]="roundSeconds()"
+              (change)="onNumberChange($event, setRoundSeconds)"
+            />
+          </label>
+        </div>
+      </section>
+
+      <section class="group">
+        <h3 class="kicker">Interwał sygnału (y)</h3>
+        <div class="fields two">
+          <label class="field">
+            Min (s)
+            <input
+              type="number"
+              min="1"
+              max="600"
+              [value]="intervalMin()"
+              (change)="onNumberChange($event, setIntervalMin)"
+            />
+          </label>
+          <label class="field">
+            Max (s)
+            <input
+              type="number"
+              min="1"
+              max="600"
+              [value]="intervalMax()"
+              (change)="onNumberChange($event, setIntervalMax)"
+            />
+          </label>
+        </div>
+      </section>
+
+      <section class="group">
+        <h3 class="kicker">Przerwa (z)</h3>
+        <div class="fields">
+          <label class="field">
+            Sekundy
+            <input
+              type="number"
+              min="0"
+              max="600"
+              [value]="breakSeconds()"
+              (change)="onNumberChange($event, setBreakSeconds)"
+            />
+          </label>
+        </div>
+      </section>
+    </div>
+
+    <div class="card-actions">
+      <button
+        type="button"
+        class="chip-btn"
+        [class.active]="running()"
+        (click)="toggle()"
+        [disabled]="!canStart() && !running()"
+      >
+        <span class="material-icons" aria-hidden="true">{{ running() ? 'pause' : 'play_arrow' }}</span>
+        {{ running() ? 'Pauza' : 'Start' }}
+      </button>
+      <button type="button" class="chip-btn" (click)="reset()" [disabled]="phase() === 'idle'">
+        <span class="material-icons" aria-hidden="true">restart_alt</span>
+        Reset
+      </button>
+    </div>
+  </article>
+</div>

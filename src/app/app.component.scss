@@ -1,0 +1,43 @@
+@import './styles/variables';
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: $color-bg-1;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 16px;
+  background: $color-bg-2;
+  border-bottom: 1px solid $border-subtle;
+  color: $font-color-1;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $font-color-1;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+  .material-icons {
+    color: $accent;
+    font-size: 22px;
+  }
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
