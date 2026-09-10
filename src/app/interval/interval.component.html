@@ -23,8 +23,8 @@
         }
         @case ('interval') {
           Sygnał za {{ phaseTime() }}
-          @if (drawnSeconds(); as drawn) {
-            · wylosowano {{ drawn }} s z {{ intervalRangeLabel() }}
+          @if (drawnLabel()) {
+            · wylosowano {{ drawnLabel() }} s z {{ intervalRangeLabel() }}
           }
           @if (!running()) {
             · pauza
@@ -132,5 +132,13 @@
         Reset
       </button>
     </div>
+
+    @if (drawHistory().length) {
+      <ol class="history">
+        @for (item of drawHistory(); track $index) {
+          <li>{{ item }} s</li>
+        }
+      </ol>
+    }
   </article>
 </div>

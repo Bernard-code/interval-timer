@@ -38,9 +38,15 @@ export class IntervalComponent {
   public readonly running = signal(false);
   public readonly pulse = signal(false);
   public readonly signalCount = signal(0);
-  public readonly drawnSeconds = signal<number | null>(null);
+  public readonly drawnHundredths = signal<number | null>(null);
+  public readonly drawHistory = signal<string[]>([]);
   public readonly roundRemainingMs = signal(0);
   public readonly phaseRemainingMs = signal(0);
+
+  public readonly drawnSeconds = computed(() => {
+    const hundredths = this.drawnHundredths();
+    return hundredths === null ? null : hundredths / 100;
+  });
 
   public readonly roundLabel = computed(() => this.formatMs(this.roundDurationMs()));
 
@@ -52,6 +58,11 @@ export class IntervalComponent {
   });
 
   public readonly phaseTime = computed(() => this.formatMs(this.phaseRemainingMs()));
+
+  public readonly drawnLabel = computed(() => {
+    const hundredths = this.drawnHundredths();
+    return hundredths === null ? '' : this.formatHundredths(hundredths);
+  });
 
   public readonly progress = computed(() => {
     if (this.phase() === 'idle' || this.totalRoundMs <= 0) {
@@ -131,7 +142,8 @@ export class IntervalComponent {
     this.phase.set('idle');
     this.pulse.set(false);
     this.signalCount.set(0);
-    this.drawnSeconds.set(null);
+    this.drawnHundredths.set(null);
+    this.drawHistory.set([]);
     this.roundRemainingMs.set(0);
     this.phaseRemainingMs.set(0);
     this.totalRoundMs = 0;
@@ -154,7 +166,7 @@ export class IntervalComponent {
     this.running.set(true);
     this.lastTickAt = performance.now();
     this.stopTimer();
-    this.timerId = setInterval(() => this.tick(), 100);
+    this.timerId = setInterval(() => this.tick(), 10);
   }
 
   private pause(): void {
@@ -208,10 +220,11 @@ export class IntervalComponent {
   }
 
   private beginInterval(): void {
-    const seconds = this.randomInRange();
+    const hundredths = this.randomHundredths();
     this.phase.set('interval');
-    this.drawnSeconds.set(seconds);
-    this.phaseRemainingMs.set(seconds * 1000);
+    this.drawnHundredths.set(hundredths);
+    this.phaseRemainingMs.set(hundredths * 10);
+    this.drawHistory.update((items) => [...items, this.formatHundredths(hundredths)]);
   }
 
   private beginBreak(): void {
@@ -243,9 +256,11 @@ export class IntervalComponent {
     return { lo: Math.min(min, max), hi: Math.max(min, max) };
   }
 
-  private randomInRange(): number {
+  private randomHundredths(): number {
     const { lo, hi } = this.intervalBounds();
-    return lo + Math.floor(Math.random() * (hi - lo + 1));
+    const min = lo * 100;
+    const max = hi * 100;
+    return min + Math.floor(Math.random() * (max - min + 1));
   }
 
   private flash(): void {
@@ -347,6 +362,14 @@ export class IntervalComponent {
     const total = Math.max(0, Math.ceil(ms / 1000));
     const minutes = Math.floor(total / 60);
     const seconds = total % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return `${this.pad2(minutes)}:${this.pad2(seconds)}`;
+  }
+
+  private formatHundredths(hundredths: number): string {
+    return `${Math.floor(hundredths / 100)},${this.pad2(hundredths % 100)}`;
+  }
+
+  private pad2(value: number): string {
+    return value.toString().padStart(2, '0');
   }
 }

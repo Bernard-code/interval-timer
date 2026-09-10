@@ -31,26 +31,29 @@ describe('IntervalComponent', () => {
 
     component.toggle();
     expect(component.phase()).toBe('interval');
+    expect(component.drawnHundredths()).toBe(200);
+    expect(component.drawnLabel()).toBe('2,00');
     expect(component.drawnSeconds()).toBe(2);
     expect(component.running()).toBeTrue();
+    expect(component.drawHistory()).toEqual(['2,00']);
 
     now += 2000;
-    tick(100);
+    tick(10);
     expect(component.signalCount()).toBe(1);
     expect(component.phase()).toBe('break');
 
     now += 3000;
-    tick(100);
+    tick(10);
     expect(component.phase()).toBe('interval');
     expect(component.signalCount()).toBe(1);
 
     now += 2000;
-    tick(100);
+    tick(10);
     expect(component.signalCount()).toBe(2);
     expect(component.phase()).toBe('break');
 
     now += 3000;
-    tick(100);
+    tick(10);
     expect(component.phase()).toBe('done');
     expect(component.running()).toBeFalse();
     expect(component.signalCount()).toBe(2);

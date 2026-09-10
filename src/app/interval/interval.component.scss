@@ -179,6 +179,26 @@
   gap: 10px;
 }
 
+.history {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid $border-subtle;
+  list-style: none;
+  color: $font-color-2;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+
+  li {
+    padding: 4px 8px;
+    border: 1px solid $border-subtle;
+    border-radius: 8px;
+    background: $color-bg-3;
+  }
+}
+
 .chip-btn {
   display: inline-flex;
   align-items: center;
